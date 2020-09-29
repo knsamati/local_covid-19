@@ -14,11 +14,9 @@ source("global.R")
 # set Sass variables
 bs_theme_new(version = "4+3", bootswatch = NULL)
 bs_theme_add_variables(
-  "primary" = "#969696",
-  "secondary" = "#bdbdbd",
-  "body-color" = "#212121",
-  "input-border-color" = "#202528",
-  "font-family-sans-serif" = "Open Sans, sans-serif"
+  "primary" = "#5d77a3",
+  "secondary" = "#f5f9ff",
+  "input-border-color" = "#5d77a3;"
 )
 
 # downloadButton() without icon
@@ -27,24 +25,15 @@ download_button <- function(outputId, label = "Download"){
          target = "_blank", download = NA, NULL, label)
 }
 
-ui <- bootstrapPage(
+ui <- bootstrapPage(title = "Local COVID-19",
   bootstrap(),
-  includeCSS("styles.css"),
-  titlePanel(
-    div(
-      class = "headerContainer",
-      a(
-        img(
-          src = "https://www.trafforddatalab.io/assets/logo/trafforddatalab_logo.svg",
-          style = "position: relative; top: -3px; margin-left:10px; padding-top:10px; padding-right:10px;",
-          height = 40
-        ),
-        href = "https://www.trafforddatalab.io",
-        target = "_blank"
-      )),
-    windowTitle = "Local COVID-19"
-  ),
+  # set the language of the page - important for accessibility
+  tags$html(lang = "en-GB"),
+  # put the CSS in the head section rather than in the body - for HTML5 conformity
+  tags$head(includeCSS("styles.css")),
+  HTML('<header><a href="https://www.trafforddatalab.io" aria-label="Return to Trafford Data Lab home page"><img src="https://www.trafforddatalab.io/assets/logo/trafforddatalab_logo.svg" alt="Trafford Data Lab" width="93" class="traffordDataLabLogo"/></a>'),
   h1(class = "text-center mt-2", style = "display: flex; justify-content: center;", "Local COVID-19"),
+  HTML('</header><main>'),
   div(class = "container-fluid",
       fluidRow(
         selectInput(inputId = "ltla",
@@ -90,9 +79,43 @@ ui <- bootstrapPage(
                          br(),
                          uiOutput("care_home_deaths_ui"),
                          br(),
-                         girafeOutput("care_home_deaths_plot", width = "100%"),
+                         girafeOutput("care_home_deaths_plot", width = "100%")
                        )))
-              ))
+  ),
+  HTML("</main>
+        <script>
+          // Receive call from Shiny server with the alt text for the dynamic plot img.
+          Shiny.addCustomMessageHandler('altTextHandler', function(altText) {
+            // Setup a call to the update function every 100 milliseconds in case the plot has not been created yet
+            var altTextCallback = setInterval(function() {
+              // The plot img element does not have an id itself so we can only identify it from the parent node
+              try {
+                var plotContainer = document.getElementById('plot');
+                plotContainer.firstChild.setAttribute('alt', altText);
+                clearInterval(altTextCallback); // Cancel the callback as we have updated the alt text
+              }
+              catch(e) {
+                // An error occurred, likely the img tag hasn't been created/replaced yet. Function will run again in 100 milliseconds
+              }
+            }, 100);
+          });
+                            
+          // Add ARIA attributes to inform users when the plots and tables change content.
+          // Need setInterval as the elements may not have been added to the DOM yet.
+          var ariaCallback = setInterval(updateShinyAria, 500);
+                            
+          /*function updateShinyAria() {
+            var arrShinyContainers = document.getElementsByClassName('shiny-bound-output');
+  
+            if (arrShinyContainers.length > 0) {
+              for (var i = 0; i < arrShinyContainers.length; i++) {
+                arrShinyContainers[i].setAttribute('aria-live', 'polite');
+              }
+                                
+              clearInterval(ariaCallback);  // cancel the callback as we have added the attributes
+            }
+          }*/
+        </script>"))
 
 shinyApp(ui, function(input,output){
   

@@ -1,44 +1,76 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans%7CRoboto');
 
-@font-face {
-  font-family: 'Open Sans', sans-serif;
+html, body
+{
+    font-family: 'Open Sans', sans-serif;
+    color: #212121;
 }
 
-text {
-  font-family: 'Open Sans', sans-serif;
+/* HTML5 fallback styles for older browsers */
+main, section, header, footer, nav, figure, figcaption
+{
+    display: block;
+    box-sizing: border-box;
+}
+/* ---------------------------------------- */
+
+h1, h2, h3, h4, h5, h6, .control-label
+{
+    font-family: 'Roboto', sans-serif;
+    color: #707070;
 }
 
-div {
-  font-family: 'Open Sans', sans-serif;
+a, a:hover, a:focus, a:visited, .themeLink
+{
+    color: #046dc3;
 }
 
-h1, h2, h3, h4, h5, h6, .header {
-  font-family: 'Open Sans', sans-serif;
-  color: #212121;
+a
+{
+    text-decoration: none;
 }
 
-/* Hide underline on logo on hover */
-.headerContainer a:hover {
-  text-decoration: none;
+a:hover
+{
+    text-decoration: underline;
 }
 
-/* Centre tabsetPanel pills */
-.nav-pills {
-  display: flex;
-  justify-content: center;
+img
+{
+    border: 0;
 }
 
-/* Centre fluidRow content */
-.row {
-  display: flex;
-  justify-content: center;
+.traffordDataLabLogo
+{
+    margin: 0.5em;
+}
+
+/* Centre tabsetPanel pills and fluidRow content */
+.nav-pills, .row
+{
+    display: flex;
+    justify-content: center;
+}
+
+/* background-colour set using SASS variables in app.R */
+.bg-secondary
+{
+    padding-top: 1em;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 0 5px #f0f0f0;
+}
+
+.control-label
+{
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 /* Table */
 .table {
   margin: 0 auto;
   width: 600px;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 13px;
   line-height: 16px;
 }
