@@ -37,8 +37,8 @@ ui <- bootstrapPage(title = "Local COVID-19",
   div(class = "container-fluid",
       fluidRow(
         selectInput(inputId = "ltla",
-                           label = "Select a local authority:",
-                           choices = c("Please choose an option" = '', sort(unique(ltla$area_name)))))),
+                           label = "Local Authority:",
+                           choices = c("Please make a selection" = '', sort(unique(ltla$area_name)))))),
   br(),
   tabsetPanel(type = "pills",
               tabPanel("Summary",
@@ -84,23 +84,6 @@ ui <- bootstrapPage(title = "Local COVID-19",
   ),
   HTML("</main>
         <script>
-          // Receive call from Shiny server with the alt text for the dynamic plot img.
-          Shiny.addCustomMessageHandler('altTextHandler', function(altText) {
-            // Setup a call to the update function every 100 milliseconds in case the plot has not been created yet
-            var altTextCallback = setInterval(function() {
-              // The plot img element does not have an id itself so we can only identify it from the parent node
-              try {
-                var plotContainer = document.getElementById('plot');
-                plotContainer.firstChild.setAttribute('alt', altText);
-                clearInterval(altTextCallback); // Cancel the callback as we have updated the alt text
-              }
-              catch(e) {
-                // An error occurred, likely the img tag hasn't been created/replaced yet. Function will run again in 100 milliseconds
-              }
-            }, 100);
-          });
-          
-          
           // Add label to the hidden select element for the LA choice
           var cb_selectLabel = setInterval(function() {
               try {
@@ -117,7 +100,7 @@ ui <- bootstrapPage(title = "Local COVID-19",
               }
           }, 500);
              
-                            
+          // *** NOT IMPLEMENTED YET ***       
           // Add ARIA attributes to inform users when the plots and tables change content.
           // Need setInterval as the elements may not have been added to the DOM yet.
           /*var ariaCallback = setInterval(updateShinyAria, 500);
@@ -272,7 +255,7 @@ shinyApp(ui, function(input,output){
      span(style = "text-decoration: underline; text-decoration-style: dotted;", title = tooltip, value)
    }
    
-   sticky_style <- list(position = "sticky", left = 0, background = "#fff", zIndex = 1,
+   sticky_style <- list(position = "sticky", left = 0, zIndex = 1,
                         borderRight = "1px solid #eee")
    
    reactable(class = "table",

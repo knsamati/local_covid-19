@@ -92,7 +92,8 @@ img
 
 .value-highlight {
   font-weight: bold;
-  color: #39809E;
+  color: #fff;
+  background-color: #5d77a3;
 }
 
 /* Error message*/
