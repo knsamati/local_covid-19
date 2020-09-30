@@ -20,6 +20,17 @@ h1, h2, h3, h4, h5, h6, .control-label
     color: #707070;
 }
 
+h1
+{
+  display: flex;
+  justify-content: center;
+}
+
+main
+{
+  margin-top: 1em;
+}
+
 a, a:hover, a:focus, a:visited, .themeLink
 {
     color: #046dc3;
@@ -63,7 +74,7 @@ img
 .control-label
 {
     font-weight: bold;
-    font-size: 1.2em;
+    margin-bottom: 0;
 }
 
 /* Table */
@@ -75,7 +86,7 @@ img
   line-height: 16px;
 }
 
-.header .group-header {
+.group-header {
   font-size: 14px;
 }
 

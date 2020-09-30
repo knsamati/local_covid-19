@@ -32,13 +32,13 @@ ui <- bootstrapPage(title = "Local COVID-19",
   # put the CSS in the head section rather than in the body - for HTML5 conformity
   tags$head(includeCSS("styles.css")),
   HTML('<header><a href="https://www.trafforddatalab.io" aria-label="Return to Trafford Data Lab home page"><img src="https://www.trafforddatalab.io/assets/logo/trafforddatalab_logo.svg" alt="Trafford Data Lab" width="93" class="traffordDataLabLogo"/></a>'),
-  h1(class = "text-center mt-2", style = "display: flex; justify-content: center;", "Local COVID-19"),
+  h1(class = "text-center mt-2", "Local COVID-19"),
   HTML('</header><main>'),
   div(class = "container-fluid",
       fluidRow(
         selectInput(inputId = "ltla",
-                           label = NULL,
-                           choices = c("Select a local authority" = '', sort(unique(ltla$area_name)))))),
+                           label = "Select a local authority:",
+                           choices = c("Please choose an option" = '', sort(unique(ltla$area_name)))))),
   br(),
   tabsetPanel(type = "pills",
               tabPanel("Summary",
@@ -99,12 +99,30 @@ ui <- bootstrapPage(title = "Local COVID-19",
               }
             }, 100);
           });
+          
+          
+          // Add label to the hidden select element for the LA choice
+          var cb_selectLabel = setInterval(function() {
+              try {
+                  var label = document.getElementsByClassName('control-label')[0];
+                  label.id = 'a11y-la-selection';
+                  
+                  var select = document.getElementById('ltla');
+                  select.setAttribute('aria-labelledby', 'a11y-la-selection');
+                  
+                  clearInterval(cb_selectLabel); // cancel further calls to this fn
+              }
+              catch(e) {
+                  // do nothing, wait until function is called again next interval
+              }
+          }, 500);
+             
                             
           // Add ARIA attributes to inform users when the plots and tables change content.
           // Need setInterval as the elements may not have been added to the DOM yet.
-          var ariaCallback = setInterval(updateShinyAria, 500);
+          /*var ariaCallback = setInterval(updateShinyAria, 500);
                             
-          /*function updateShinyAria() {
+          function updateShinyAria() {
             var arrShinyContainers = document.getElementsByClassName('shiny-bound-output');
   
             if (arrShinyContainers.length > 0) {
