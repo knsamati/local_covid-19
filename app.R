@@ -99,6 +99,30 @@ ui <- bootstrapPage(title = "Local COVID-19",
                   // do nothing, wait until function is called again next interval
               }
           }, 500);
+          
+          // Add aria-label to total cases info button to describe its function for accessibility
+          var cb_totalCasesInfoButton = setInterval(function() {
+              try {
+                  var btn = document.getElementById('totalCasesInfo');
+                  btn.setAttribute('aria-label', 'Display pop-up information about the cases data.');
+                  clearInterval(cb_totalCasesInfoButton); // cancel further calls to this fn
+              }
+              catch(e) {
+                  // do nothing, wait until function is called again next interval
+              }
+          }, 500);
+          
+          // Add aria-label to total cases download button to describe its function for accessibility
+          var cb_totalCasesDownloadButton = setInterval(function() {
+              try {
+                  var btn = document.getElementById('totalCasesDownload');
+                  btn.setAttribute('aria-label', 'Display popup containing a button to download the cases data displayed in the table.');
+                  clearInterval(cb_totalCasesDownloadButton); // cancel further calls to this fn
+              }
+              catch(e) {
+                  // do nothing, wait until function is called again next interval
+              }
+          }, 500);
              
           // *** NOT IMPLEMENTED YET ***       
           // Add ARIA attributes to inform users when the plots and tables change content.
@@ -296,9 +320,9 @@ shinyApp(ui, function(input,output){
    
    div(
      div(style = "position: absolute; right: 8.5em; top: 0em;",
-         dropdown(includeMarkdown("data/metadata/total_cases.md"), icon = icon("info-circle"), size = "s", style = "jelly", width = "400px", right = TRUE, up = FALSE)),
+         dropdown(includeMarkdown("data/metadata/total_cases.md"), inputId = "totalCasesInfo", icon = icon("info-circle"), size = "s", style = "jelly", width = "400px", right = TRUE, up = FALSE)),
      div(style = "position: absolute; right: 5em; top: 0em;",
-         dropdown(download_button("download_total_cases_data", label = "Get the data"), icon = icon("table"), size = "s", style = "jelly", width = "180px", right = FALSE, up = FALSE),
+         dropdown(download_button("download_total_cases_data", label = "Get the data"), inputId = "totalCasesDownload", icon = icon("table"), size = "s", style = "jelly", width = "180px", right = FALSE, up = FALSE),
          tags$style(HTML('.fa {color: #525252;}.bttn-jelly.bttn-default{color:#f0f0f0;}.bttn-jelly:hover:before{opacity:1};')))
    )
    
