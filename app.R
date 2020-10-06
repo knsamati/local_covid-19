@@ -103,7 +103,6 @@ ui <- bootstrapPage(title = "Local COVID-19",
           
           $(document).on('shiny:value', function(event) {
             var la = document.getElementById('ltla').value;
-            console.log('LA: ' + la);
           
             if (event.target.id === 'total_cases_ui' && la !== '' && la !== null) {
             
