@@ -100,29 +100,40 @@ ui <- bootstrapPage(title = "Local COVID-19",
               }
           }, 500);
           
-          // Add aria-label to total cases info button to describe its function for accessibility
-          var cb_totalCasesInfoButton = setInterval(function() {
-              try {
-                  var btn = document.getElementById('totalCasesInfo');
-                  btn.setAttribute('aria-label', 'Display pop-up information about the cases data.');
-                  clearInterval(cb_totalCasesInfoButton); // cancel further calls to this fn
-              }
-              catch(e) {
-                  // do nothing, wait until function is called again next interval
-              }
-          }, 500);
           
-          // Add aria-label to total cases download button to describe its function for accessibility
-          var cb_totalCasesDownloadButton = setInterval(function() {
-              try {
-                  var btn = document.getElementById('totalCasesDownload');
-                  btn.setAttribute('aria-label', 'Display popup containing a button to download the cases data displayed in the table.');
-                  clearInterval(cb_totalCasesDownloadButton); // cancel further calls to this fn
-              }
-              catch(e) {
-                  // do nothing, wait until function is called again next interval
-              }
-          }, 500);
+          $(document).on('shiny:value', function(event) {
+            var la = document.getElementById('ltla').value;
+            console.log('LA: ' + la);
+          
+            if (event.target.id === 'total_cases_ui' && la !== '' && la !== null) {
+            
+              // Add aria-label to total cases info button to describe its function for accessibility
+              var cb_totalCasesInfoButton = setInterval(function() {
+                  try {
+                      var btn = document.getElementById('totalCasesInfo');
+                      btn.setAttribute('aria-label', 'Display pop-up information about the cases data.');
+                      clearInterval(cb_totalCasesInfoButton); // cancel further calls to this fn
+                  }
+                  catch(e) {
+                      // do nothing, wait until function is called again next interval
+                  }
+              }, 500);
+              
+              // Add aria-label to total cases download button to describe its function for accessibility
+              var cb_totalCasesDownloadButton = setInterval(function() {
+                  try {
+                      var btn = document.getElementById('totalCasesDownload');
+                      btn.setAttribute('aria-label', 'Display popup containing a button to download the cases data displayed in the table.');
+                      clearInterval(cb_totalCasesDownloadButton); // cancel further calls to this fn
+                  }
+                  catch(e) {
+                      // do nothing, wait until function is called again next interval
+                  }
+              }, 500);
+              
+            }
+          });
+          
              
           // *** NOT IMPLEMENTED YET ***       
           // Add ARIA attributes to inform users when the plots and tables change content.
@@ -142,7 +153,7 @@ ui <- bootstrapPage(title = "Local COVID-19",
           }*/
         </script>"))
 
-shinyApp(ui, function(input,output){
+shinyApp(ui, function(input,output,session){
   
   
   # -------------------------------------------
